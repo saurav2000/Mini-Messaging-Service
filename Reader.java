@@ -19,10 +19,10 @@ class Reader
 		{
 			for(int i=0;i<n;++i)
 			{
-				if(br.ready())
-					s+= ((char)br.read());
-				else
+				int t = br.read();
+				if(t==-1)
 					return null;
+				s+= ((char)t);
 			}
 			return s;
 		}
@@ -38,10 +38,7 @@ class Reader
 	{
 		try
 		{
-			if(br.ready())
-				return br.readLine();
-			else
-				return null;
+			return br.readLine();
 		}
 		catch(IOException e)
 		{
@@ -51,17 +48,29 @@ class Reader
 		return null;
 	}
 
-	public boolean reset()
-	{
-		try
-		{
-			br.reset();
-			return true;
-		}
-		catch(IOException e)
-		{
-			e.printStackTrace();
-		}
-		return false;
-	}
+	// public boolean reset()
+	// {
+	// 	try
+	// 	{
+	// 		br.reset();
+	// 		return true;
+	// 	}
+	// 	catch(IOException e)
+	// 	{
+	// 		e.printStackTrace();
+	// 	}
+	// 	return false;
+	// }
+	// public boolean ready()
+	// {
+	// 	try
+	// 	{
+	// 		return br.ready();
+	// 	}
+	// 	catch(IOException e)
+	// 	{
+	// 		e.printStackTrace();
+	// 	}
+	// 	return false;
+	// }
 }
