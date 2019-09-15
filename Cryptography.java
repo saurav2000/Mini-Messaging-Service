@@ -159,7 +159,7 @@ public class Cryptography
 		}
 		catch(Exception e)
 		{
-			e.printStackTrace();
+			// e.printStackTrace();
 		}
 		return null;
 	}
@@ -180,7 +180,7 @@ public class Cryptography
 		}
 		catch(Exception e)
 		{
-			e.printStackTrace();
+			// e.printStackTrace();
 			//return false;
 		}
 		return null;
@@ -191,28 +191,31 @@ public class Cryptography
 		KeyPair generateKeyPair = generateKeyPair();
 		byte[] publicKey = generateKeyPair.getPublic().getEncoded();
 		byte[] privateKey = generateKeyPair.getPrivate().getEncoded();
+		KeyPair g2 = generateKeyPair();
 
-		String s = "1234 678";
-		// for(int i=0;i<publicKey.length;++i)
-			// System.out.println(publicKey[i]);
+		System.out.println(Arrays.equals(privateKey, g2.getPrivate().getEncoded()));
 
-		// System.out.println(toString(toBytes(s)));
-		byte[] ar = {65,66,67};
-		byte[] ar2 = toBytes(toString(publicKey));
-		System.out.println(Arrays.equals(publicKey, ar2));
-		String test = encrypt(toString(publicKey), "whyyy");
-		String dec = decrypt(toString(privateKey), test);
-		System.out.println(dec);
-		// byte[] encryptedData = encrypt(publicKey,
-				// "hi there".getBytes());
+		// String s = "1234 678";
+		// // for(int i=0;i<publicKey.length;++i)
+		// 	// System.out.println(publicKey[i]);
 
-		// byte[] decryptedData = decrypt(privateKey, encryptedData);
+		// // System.out.println(toString(toBytes(s)));
+		// byte[] ar = {65,66,67};
+		// byte[] ar2 = toBytes(toString(publicKey));
+		// System.out.println(Arrays.equals(publicKey, ar2));
+		// String test = encrypt(toString(publicKey), "whyyy");
+		// String dec = decrypt(toString(privateKey), test);
+		// System.out.println(dec);
+		// // byte[] encryptedData = encrypt(publicKey,
+		// 		// "hi there".getBytes());
 
-		String sig = sign("hey there",generateKeyPair.getPrivate());
-		boolean verif = verify("hey there",sig,toString(publicKey));
+		// // byte[] decryptedData = decrypt(privateKey, encryptedData);
 
-		System.out.println(sig);
-		System.out.println(verif);
+		// String sig = sign("hey there",generateKeyPair.getPrivate());
+		// boolean verif = verify("hey there",sig,toString(publicKey));
+
+		// System.out.println(sig);
+		// System.out.println(verif);
 
 		// String pub = 
 		// System.out.println(pub.length());
