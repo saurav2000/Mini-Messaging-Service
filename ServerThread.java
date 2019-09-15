@@ -121,13 +121,27 @@ public class ServerThread implements Runnable
 				{
 					recip = s.substring(5);
 					header1 = in.readLine();
+					if(header1==null)
+					{
+						out.print("ERROR 103 Header incomplete\n\n");
+						continue;	
+					}
 					l1 = Integer.parseInt(header1.substring(16));
 					if(mode==2)
 					{
 						header2 = in.readLine();
+						if(header2==null)
+						{
+							out.print("ERROR 103 Header incomplete\n\n");
+							continue;
+						}
 						l2 = Integer.parseInt(header2.substring(18));
 					}
-					in.readLine();
+					if(!in.readLine().equals(""))
+					{
+						out.print("ERROR 103 Header incomplete\n\n");
+						continue;
+					}
 					message = in.read(l1);
 					in.readLine();
 					if(mode==2)
@@ -168,6 +182,7 @@ public class ServerThread implements Runnable
 				//Sending message
 				if(s.startsWith("SEND"))
 				{
+
 					if(mode==2)
 						pw.print("FORWARD "+username+"\n"+header1+"\n"+header2+"\n\n"+message+"\n"+signature+"\n");
 					else
@@ -279,3 +294,4 @@ public class ServerThread implements Runnable
 		return true;
 	}
 }
+
