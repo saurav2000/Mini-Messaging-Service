@@ -46,6 +46,8 @@ public class Client
 	//To synchronize username between Sender and Receiver objects
 	public synchronized void setUsername(String s)
 	{
+		if(s==null)
+			System.exit(0);
 		this.username=s;
 	}
 	
