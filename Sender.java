@@ -25,6 +25,7 @@ class Sender implements Runnable
 	{
 		if(!register())
 			return;
+		System.out.println("Sender socket registered");
 		boolean reading = true, encrypt = false;
 		String recipient = "", message = "", signature="";
 		while(true)
@@ -43,11 +44,11 @@ class Sender implements Runnable
 
 				if(line.equals("DEREGISTER"))
 				{
+					//For the server to destroy its thread
+					out.print("DEREGISTER\n\n");
 					//Setting username to null which 
 					//is checked in receiver
 					client.setUsername(null);
-					//For the server to destroy its thread
-					out.print("DEREGISTER\n\n");
 					return;
 				}
 
@@ -94,7 +95,7 @@ class Sender implements Runnable
 					{
 						signature = Cryptography.sign(message,kp.getPrivate());
 						out.print("SEND " + recipient+"\nContent-length: "+message.length()+"\nSignature-length: "
-							+signature.length()+"\n\n"+message+"\n"+signature+"\n");
+							+signature.length()+"\n\n"+message+signature);
 					}
 
 					reading = false;

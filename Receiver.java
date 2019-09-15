@@ -26,7 +26,7 @@ class Receiver implements Runnable
 		int l1 = 0, l2 = 0;
 		if(!register())
 			return;
-
+		System.out.println("Receiver socket registered");
 		while(true)
 		{
 			//deregister
@@ -40,7 +40,7 @@ class Receiver implements Runnable
 			{
 				in.readLine();
 				String temp = Cryptography.toString(kp.getPublic().getEncoded());
-				out.println("FETCHEDKEY\n"+temp.length()+"\n"+temp+"\n\n");
+				out.print("FETCHEDKEY\n"+temp.length()+"\n"+temp+"\n\n");
 			}
 
 			else if(hashCheck)
@@ -90,7 +90,6 @@ class Receiver implements Runnable
 					continue;
 				}
 				line = in.read(l1);
-				in.readLine();
 				if(line==null)
 				{
 					out.print("ERROR 103 Header incomplete\n\n");
@@ -103,7 +102,6 @@ class Receiver implements Runnable
 					if(mode==2)
 					{
 						line = in.read(l2);
-						in.readLine();
 						signature=line;
 						out.print("FETCHKEY\n\n");
 						hashCheck = true;

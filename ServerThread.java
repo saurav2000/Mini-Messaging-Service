@@ -113,8 +113,14 @@ public class ServerThread implements Runnable
 				pw = null;
 
 				s = in.readLine();
+				// blocking read handle
 				if(s==null)
-					continue;
+				{
+					server.delete(username);
+					System.out.println(username+" Abruptly exited");
+					return;
+				}
+
 
 				//Sending message
 				if(s.startsWith("SEND"))
@@ -143,11 +149,9 @@ public class ServerThread implements Runnable
 						continue;
 					}
 					message = in.read(l1);
-					in.readLine();
 					if(mode==2)
-					{	signature = in.read(l2);
-						in.readLine();
-					}
+						signature = in.read(l2);
+					
 				}
 				//Sending fetchkey to recipient for encryption
 				else if(s.startsWith("FETCHKEY"))
@@ -159,6 +163,7 @@ public class ServerThread implements Runnable
 				{
 					server.delete(username);
 					in.readLine();
+					System.out.println(username+" deregistered");
 					return;
 				}
 
@@ -184,9 +189,9 @@ public class ServerThread implements Runnable
 				{
 
 					if(mode==2)
-						pw.print("FORWARD "+username+"\n"+header1+"\n"+header2+"\n\n"+message+"\n"+signature+"\n");
+						pw.print("FORWARD "+username+"\n"+header1+"\n"+header2+"\n\n"+message+signature);
 					else
-						pw.print("FORWARD "+username+"\n"+header1+"\n\n"+message+"\n");
+						pw.print("FORWARD "+username+"\n"+header1+"\n\n"+message);
 					try
 					{
 						System.out.println(username + " TO "+recip+"\n"+(new String(message.getBytes(), "UTF-8"))+"\n");
@@ -219,7 +224,7 @@ public class ServerThread implements Runnable
 						if(s.startsWith("FETCHEDKEY"))
 						{
 							int l = Integer.parseInt(r.readLine());
-							pw.print("FETCHEDKEY\n"+l+"\n"+r.read(l)+"\n");
+							pw.println("FETCHEDKEY\n"+l+"\n"+r.read(l)+"\n");
 							r.readLine();r.readLine();
 							hash = false;
 						}
