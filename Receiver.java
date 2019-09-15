@@ -24,7 +24,8 @@ class Receiver implements Runnable
 		boolean hashCheck = false;
 		String message = "",sender="",signature="";
 		int l1 = 0, l2 = 0;
-		register();
+		if(!register())
+			return;
 
 		while(true)
 		{
@@ -118,14 +119,14 @@ class Receiver implements Runnable
 		}
 	}
 
-	private void register()
+	private boolean register()
 	{
 		boolean sent = false, done = false;
 		do
 		{
 			if(!sent)
 			{
-				out.print("REGISTER TORECV "+client.getUsername()+"\n\n");
+				out.print("REGISTER TORECV "+client.getUsername()+" "+mode+"\n\n");
 				sent = true;
 			}
 			
@@ -139,6 +140,8 @@ class Receiver implements Runnable
 					done = true;
 				else if(s.startsWith("ERROR 100"))
 					sent = false;
+				else if(s.startsWith("ERROR 107"))
+					return false;
 				else
 					System.out.println(s);
 				
@@ -146,5 +149,6 @@ class Receiver implements Runnable
 			}
 			
 		}while(!done);
+		return true;
 	}
 }

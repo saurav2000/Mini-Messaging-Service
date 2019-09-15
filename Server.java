@@ -1,4 +1,5 @@
 import java.io.IOException;
+import java.io.InvalidObjectException;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.HashMap;
@@ -10,7 +11,7 @@ public class Server
 	private ServerSocket ss = null;
 	private int mode = -1;
 
-	Server(int port, int mode)
+	Server(int port, int mode) throws InvalidObjectException
 	{
 		map = new HashMap<>();
 		count = new HashMap<>();
@@ -21,7 +22,8 @@ public class Server
 		}
 		catch (IOException e)
 		{
-			e.printStackTrace();
+			// e.printStackTrace();
+			throw new InvalidObjectException("PORT_ERROR");
 		}
 	}
 	
@@ -84,6 +86,10 @@ public class Server
 		try
 		{
 			new Server(Integer.parseInt(args[0]), Integer.parseInt(args[1])).start();
+		}
+		catch (InvalidObjectException e)
+		{
+			System.out.println("Port occupied or permission denied");		
 		}
 		catch(Exception e)
 		{

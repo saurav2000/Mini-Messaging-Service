@@ -23,7 +23,8 @@ class Sender implements Runnable
 
 	public void run()
 	{
-		register();
+		if(!register())
+			return;
 		boolean reading = true, encrypt = false;
 		String recipient = "", message = "", signature="";
 		while(true)
@@ -135,10 +136,10 @@ class Sender implements Runnable
 		}
 	}
 	
-	private void register()
+	private boolean register()
 	{
 		boolean sent = true, done = false;
-		out.println("REGISTER TOSEND "+client.getUsername()+"\n");
+		out.println("REGISTER TOSEND "+client.getUsername()+" "+mode+"\n");
 
 		while(!done)
 		{
@@ -149,7 +150,7 @@ class Sender implements Runnable
 					continue;
 				//Synchronizing with receiver
 				client.setUsername(u);
-				out.println("REGISTER TOSEND "+client.getUsername()+"\n");
+				out.println("REGISTER TOSEND "+client.getUsername()+" "+mode+"\n");
 				sent = true;
 			}
 			
@@ -166,12 +167,18 @@ class Sender implements Runnable
 					sent = false;
 					System.out.print("The username is invalid or already taken: ");
 				}
+				else if(s.startsWith("ERROR 107"))
+				{
+					System.out.println("The mode is incompatible with the server");
+					return false;	
+				}
 				else
 					System.out.println(s);
 				
 				in.readLine();
 			}
 		}
+		return true;
 	}
 
 	//Checking the format of the input line
@@ -184,7 +191,7 @@ class Sender implements Runnable
 			return true;
 		
 		s.trim();
-		if(s=="")
+		if(s.equals(""))
 			return false;
 		
 		if(s.indexOf(32)==-1)
@@ -197,8 +204,11 @@ class Sender implements Runnable
 		if(sub.charAt(0)!='@')
 			return false;
 		
-		sub = sub.substring(1);
-		if(sub=="")
+		sub = sub.substring(1).trim();
+		if(sub.equals(""))
+			return false;
+		sub = s.substring(s.indexOf(32)).trim();
+		if(sub.length()==0)
 			return false;
 		
 		return true;

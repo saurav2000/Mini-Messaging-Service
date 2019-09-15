@@ -45,6 +45,12 @@ public class ServerThread implements Runnable
 			{
 				rcv = true;
 				username = s.substring(16);
+				int m = Integer.parseInt(s.substring(s.lastIndexOf(32)).trim());
+				if(m!=mode)
+				{
+					out.print("ERROR 107 INVALID MODE\n\n");
+					return;
+				}
 				if(isValidUsername(username))
 					out.print("REGISTERED TORECV "+username+"\n\n");
 				else
@@ -56,6 +62,12 @@ public class ServerThread implements Runnable
 			else if(s.startsWith("REGISTER TOSEND"))
 			{
 				username = s.substring(16);
+				int m = Integer.parseInt(s.substring(s.lastIndexOf(32)).trim());
+				if(m!=mode)
+				{
+					out.print("ERROR 107 INVALID MODE\n\n");
+					return;
+				}
 				if(isValidUsername(username))
 					out.print("REGISTERED TOSEND "+username+"\n\n");
 				else
@@ -160,8 +172,12 @@ public class ServerThread implements Runnable
 						pw.print("FORWARD "+username+"\n"+header1+"\n"+header2+"\n\n"+message+"\n"+signature+"\n");
 					else
 						pw.print("FORWARD "+username+"\n"+header1+"\n\n"+message+"\n");
-					System.out.println(username + " TO "+recip+"\n"+(new String(message.getBytes(), "UTF-8"))+"\n");
-					System.out.println();
+					try
+					{
+						System.out.println(username + " TO "+recip+"\n"+(new String(message.getBytes(), "UTF-8"))+"\n");
+						System.out.println();	
+					}catch(Exception e){}
+					
 				}
 				//Sending fetchkey to recipient for encryption
 				else if(s.startsWith("FETCHKEY"))

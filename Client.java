@@ -26,7 +26,7 @@ public class Client
 		}
 		catch(Exception e)
 		{
-			e.printStackTrace();
+			// e.printStackTrace();
 			throw new InvalidObjectException("CLIENT_CREATE_ERROR");
 		}
 	}
@@ -53,8 +53,14 @@ public class Client
 	{
 		try                                                                                                                                                                                     
 		{
+			int mode = Integer.parseInt(args[3]);
+			if(mode>=3||mode<0)
+			{
+				System.out.println("Invalid mode");
+				return;
+			}
 			Client c = new Client(args[0], args[1], 
-				Integer.parseInt(args[2]), Integer.parseInt(args[3]));
+				Integer.parseInt(args[2]), mode);
 			c.start();
 		}
 		catch (InvalidObjectException e)
