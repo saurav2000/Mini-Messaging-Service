@@ -17,9 +17,12 @@ Suppose **Saurav** is sending a message to **Nikhil**
 	> Safe indicates the signature is verified and is only available in Mode 2
 	> If the message is tampered the sender gets the message `Message Authenticaition Failed`
 
-## Registration
+## Registration and Deregistration
 + The initial username is taken from the parameters. If this username is taken or invalid the client is prompted to enter a valid username till the username is verified by the server.
 + If the mode of the client does not match with that of the server, error message is printed and the client is exited completely.
++ The client can deregister by typing in `DEREGISTER`.
++ On pressing `Ctrl-C` the client is deregistered and a message is printed on the server that it exited abruptly.
++ When `Ctrl-C` is pressed on the server, all clients are closed after printing a message that the server closed.
 
 ## Socket and Port Handling
 + While initialising the server if the port is occupied by some other process or its permission is denied the error message is printed and the server exits completely
