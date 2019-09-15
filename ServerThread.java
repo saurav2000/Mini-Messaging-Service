@@ -239,7 +239,7 @@ public class ServerThread implements Runnable
 				else if(s.startsWith("ERROR 103"))
 				{
 					br.readLine();
-					out.print(s+"\n\n");
+					out.print("ERROR 102 Recipient Server communication failed"+"\n\n");
 				}
 				else if(s.startsWith("ERROR 106"))
 				{
