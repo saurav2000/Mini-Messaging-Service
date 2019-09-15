@@ -44,7 +44,7 @@ public class ServerThread implements Runnable
 			if(s.startsWith("REGISTER TORECV"))
 			{
 				rcv = true;
-				username = s.substring(16);
+				username = s.substring(16, s.lastIndexOf(32));
 				int m = Integer.parseInt(s.substring(s.lastIndexOf(32)).trim());
 				if(m!=mode)
 				{
@@ -61,7 +61,7 @@ public class ServerThread implements Runnable
 			}
 			else if(s.startsWith("REGISTER TOSEND"))
 			{
-				username = s.substring(16);
+				username = s.substring(16, s.lastIndexOf(32));
 				int m = Integer.parseInt(s.substring(s.lastIndexOf(32)).trim());
 				if(m!=mode)
 				{
