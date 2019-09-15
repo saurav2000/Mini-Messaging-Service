@@ -34,7 +34,11 @@ class Receiver implements Runnable
 				return;
 			String line = in.readLine();
 			if(line==null)
-				continue;
+			{
+				System.out.println("\nServer closed!\n");
+				client.setUsername(null);
+				return;
+			}
 			//FETCHKEY for encryption/signature check
 			if(line.startsWith("FETCHKEY"))
 			{
